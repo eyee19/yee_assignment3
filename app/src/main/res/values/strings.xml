@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">yee_assignment3</string>
+    <string name="add_class">Add Class</string>
+    <string name="className">Class Name</string>
+    <string name="classNumber">Class Number</string>
+    <string name="classProperties">Class Properties</string>
+    <string name="addStudent">Add Student</string>
+    <string name="save">Save</string>
+    <string name="addPicture">Add a Picture</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="saveStudent">Save Student</string>
+    <string name="studentID">Student ID</string>
+</resources>
