@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Button;
@@ -49,6 +50,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(i,1);
             }
         });
+
+        classList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(MainActivity.this, classProperties.class);
+                i.putExtra("className", classList.getItemAtPosition(position).toString());
+                //i.putExtra("POSITION", position);
+                String newPosition = Integer.toString(position);
+                i.putExtra("index", newPosition);
+
+                startActivityForResult(i, 2);
+            }
+        });
     }
 
     @Override
@@ -68,6 +82,21 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("MainActivity", "Names returned successfully");
 
                 ListElementsArrayList.add(classNameReturn + " " + classNumberReturn);
+
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        if(requestCode == 2) {
+            if(resultCode == Activity.RESULT_OK) {
+                String newName = data.getStringExtra("newName");
+                String indexReturn = data.getStringExtra("indexReturn");
+                //Log.d("MainActivity", "RETURNED INDEX: " + indexReturn);
+                int newIndex = Integer.parseInt(indexReturn);
+                int newerIndex = newIndex -1;
+                //Log.d("MainActivity", "INTEGER RETURNED INDEX: " + newerIndex);
+                ListElementsArrayList.add(newName);
+                ListElementsArrayList.remove(newerIndex);
                 adapter.notifyDataSetChanged();
             }
         }
