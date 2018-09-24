@@ -51,7 +51,7 @@ public class addClass extends AppCompatActivity {
 
         studentList.addHeaderView(textView, null, false);
 
-        findViewById(R.id.addClassParent).setOnTouchListener(new View.OnTouchListener() {
+        findViewById(R.id.addClassParent).setOnTouchListener(new View.OnTouchListener() { //Makes keyboard disappear when user clicks outside of text boxes
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -72,15 +72,18 @@ public class addClass extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (className.getText().toString().trim().length() <= 0 || classNumber.getText().toString().trim().length() <= 0) {
-                    Toast.makeText(addClass.this, "Class Name/Number Empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(addClass.this, "Class Name/Number Empty", Toast.LENGTH_LONG).show(); //If input is empty
                 }
                 else {
                     Intent backHome = new Intent();
                     String classNameReturn = className.getText().toString();
                     String classNumberReturn = classNumber.getText().toString();
+                    int count = studentList.getAdapter().getCount();
+                    String studentCount = Integer.toString(count);
 
                     backHome.putExtra("classNameReturn", classNameReturn);
                     backHome.putExtra("classNumberReturn", classNumberReturn);
+                    backHome.putExtra("studentCount", studentCount);
                     //backHome.putStringArrayListExtra("studentList", studentListElementsArrayList);
                     //Log.d("MainActivity", "RETURNED VALUE: " + backHome.putStringArrayListExtra("studentList", studentListElementsArrayList));
                     //Log.d("addClass", "STUDENT DATA TEST: " + studentList.getAdapter().getItem(1));
@@ -101,7 +104,7 @@ public class addClass extends AppCompatActivity {
 
         studentList.setAdapter(classAdapter);
 
-        if(requestCode == 1) {
+        if(requestCode == 1) { //Displays the student in the list
             if(resultCode == Activity.RESULT_OK) {
                 String firstNameReturn = data.getStringExtra("firstNameReturn");
                 String lastNameReturn = data.getStringExtra("lastNameReturn");
@@ -112,7 +115,7 @@ public class addClass extends AppCompatActivity {
                 studentListElementsArrayList.add(firstNameReturn + " " + lastNameReturn + " | ID #: " + studentIDReturn);
                 classAdapter.notifyDataSetChanged();
 
-                studentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                studentList.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Click on a student to delete them
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(

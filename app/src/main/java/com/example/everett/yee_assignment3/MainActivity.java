@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,11 +53,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        classList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        classList.setOnItemClickListener(new AdapterView.OnItemClickListener() { //When a class is clicked open the edit class activity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String currentString = classList.getItemAtPosition(position).toString();
+                String [] separated = currentString.split(Pattern.quote("|"));
                 Intent i = new Intent(MainActivity.this, classProperties.class);
-                i.putExtra("className", classList.getItemAtPosition(position).toString());
+                i.putExtra("className", separated[0]);
+                i.putExtra("count", separated[1]);
                 String newPosition = Integer.toString(position);
                 i.putExtra("index", newPosition);
                 startActivityForResult(i, 2);
@@ -72,29 +76,33 @@ public class MainActivity extends AppCompatActivity {
                 (MainActivity.this, android.R.layout.simple_list_item_1, ListElementsArrayList);
         classList.setAdapter(adapter);
 
-        if(requestCode == 1) {
+        if(requestCode == 1) { //Displaying the class name and number in the main screen list
             if(resultCode == Activity.RESULT_OK) {
                 String classNameReturn = data.getStringExtra("classNameReturn");
                 String classNumberReturn = data.getStringExtra("classNumberReturn");
+                String studentCount = data.getStringExtra("studentCount");
+                int adjusted = Integer.parseInt(studentCount);
+                int adjustedCount = adjusted - 1;
                 //ArrayList<String> studentListReturn = getIntent().getExtras().getStringArrayList("studentList");
                 //Log.d("MainActivity", "STUDENT LIST TEST: " + studentListReturn);
 
-                ListElementsArrayList.add(classNameReturn + " " + classNumberReturn);
+                ListElementsArrayList.add(classNameReturn + " " + classNumberReturn + " | " + "Student Count: " + adjustedCount);
                 adapter.notifyDataSetChanged();
             }
         }
 
-        if(requestCode == 2) {
+        if(requestCode == 2) { //Result from class properties screen, verifying whether or not to delete a class
             if(resultCode == Activity.RESULT_OK) {
                 String newName = data.getStringExtra("newName");
                 String indexReturn = data.getStringExtra("indexReturn");
+                String countReturn = data.getStringExtra("countReturn");
                 int newIndex = Integer.parseInt(indexReturn);
                 int newerIndex = newIndex -1;
 
                 String deleteBool = data.getStringExtra("delete");
 
                 if(deleteBool.equals("noDelete")) {
-                    ListElementsArrayList.add(newName);
+                    ListElementsArrayList.add(newName + " |" + countReturn);
                     ListElementsArrayList.remove(newerIndex);
                     adapter.notifyDataSetChanged();
                 }

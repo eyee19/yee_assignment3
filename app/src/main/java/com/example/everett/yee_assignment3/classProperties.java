@@ -32,6 +32,7 @@ public class classProperties extends AppCompatActivity {
     Button deleteClass;
     Button addStudent;
     String oldName;
+    String count;
     ListView studentListEdit;
     String[] studentListElements = new String[] {};
     final ArrayList<String> studentListElementsArrayList = new ArrayList<String>(Arrays.asList(studentListElements));
@@ -69,6 +70,8 @@ public class classProperties extends AppCompatActivity {
             tv.setText(bundle.getString("className"));
             classIndex.setText(bundle.getString("index"));
             oldName = tv.getText().toString();
+            count = bundle.getString("count");
+
         }
 
         saveClass.setOnClickListener(new View.OnClickListener() {
@@ -83,11 +86,12 @@ public class classProperties extends AppCompatActivity {
                     String returnedIndex = classIndex.getText().toString();
                     String delete = "noDelete";
 
-                    Log.d("classProperties", "RETURNED INDEX: " + returnedIndex);
+                    //Log.d("classProperties", "RETURNED INDEX: " + returnedIndex);
 
                     toHome.putExtra("newName", newName);
                     toHome.putExtra("oldName", oldName);
                     toHome.putExtra("indexReturn", returnedIndex);
+                    toHome.putExtra("countReturn", count);
                     toHome.putExtra("delete", delete);
 
                     setResult(Activity.RESULT_OK, toHome);
@@ -103,7 +107,7 @@ public class classProperties extends AppCompatActivity {
                         classProperties.this);
 
                 alertDialogBuilder
-                        .setMessage("Are you sure you want to delete this class?")
+                        .setMessage("Are you sure you want to delete this class?") //Verifies first
                         .setCancelable(false)
                         .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
