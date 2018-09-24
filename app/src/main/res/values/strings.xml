@@ -12,4 +12,5 @@
     <string name="saveStudent">Save Student</string>
     <string name="studentID">Student ID</string>
     <string name="editClassProperties">Edit Class Name/Number:</string>
+    <string name="deleteClass">Delete Class</string>
 </resources>

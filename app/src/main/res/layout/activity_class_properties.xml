@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".classProperties">
+    tools:context=".classProperties"
+    android:id="@+id/classPropertiesParent">
 
     <TextView
         android:layout_width="match_parent"
@@ -24,14 +25,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/classIndex"
+        android:visibility="gone"
         android:layout_below="@+id/editClass"/>
 
-    <Button
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/classIndex"
-        android:id="@+id/saveClass"
-        android:text="@string/save"/>
+        android:id="@+id/studentListEdit"
+        android:layout_below="@+id/classIndex"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonLayout"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/deleteClass"
+            android:text="@string/deleteClass"
+            android:backgroundTint="@color/red"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/addStudentEdit"
+            android:text="@string/addStudent"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/saveClass"
+            android:backgroundTint="@color/green"
+            android:text="@string/save"/>
+
+    </LinearLayout>
 </RelativeLayout>

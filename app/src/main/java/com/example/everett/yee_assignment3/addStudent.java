@@ -69,9 +69,11 @@ public class addStudent extends AppCompatActivity {
                     Intent toClass = new Intent();
                     String firstNameReturn = firstName.getText().toString();
                     String lastNameReturn = lastName.getText().toString();
+                    String studentIDReturn = studentID.getText().toString();
 
                     toClass.putExtra("firstNameReturn", firstNameReturn);
                     toClass.putExtra("lastNameReturn", lastNameReturn);
+                    toClass.putExtra("studentIDReturn", studentIDReturn);
 
                     setResult(Activity.RESULT_OK, toClass);
                     finish();

@@ -1,12 +1,16 @@
 package com.example.everett.yee_assignment3;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +32,7 @@ public class addClass extends AppCompatActivity {
     Button save;
     RelativeLayout addClassParent;
     String[] studentListElements = new String[] {};
-    final List<String> studentListElementsArrayList = new ArrayList<String>(Arrays.asList(studentListElements));
+    final ArrayList<String> studentListElementsArrayList = new ArrayList<String>(Arrays.asList(studentListElements));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,7 @@ public class addClass extends AppCompatActivity {
         textView.setText("Student List");
         textView.setTextSize(20);
 
-        studentList.addHeaderView(textView);
+        studentList.addHeaderView(textView, null, false);
 
         findViewById(R.id.addClassParent).setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -77,6 +81,9 @@ public class addClass extends AppCompatActivity {
 
                     backHome.putExtra("classNameReturn", classNameReturn);
                     backHome.putExtra("classNumberReturn", classNumberReturn);
+                    //backHome.putStringArrayListExtra("studentList", studentListElementsArrayList);
+                    //Log.d("MainActivity", "RETURNED VALUE: " + backHome.putStringArrayListExtra("studentList", studentListElementsArrayList));
+                    //Log.d("addClass", "STUDENT DATA TEST: " + studentList.getAdapter().getItem(1));
 
                     setResult(Activity.RESULT_OK, backHome);
                     finish();
@@ -98,9 +105,40 @@ public class addClass extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK) {
                 String firstNameReturn = data.getStringExtra("firstNameReturn");
                 String lastNameReturn = data.getStringExtra("lastNameReturn");
+                String studentIDReturn = data.getStringExtra("studentIDReturn");
+                String completeInfo = firstNameReturn + " " + lastNameReturn + " | ID #: " + studentIDReturn;
+                //Log.d("addClass", "RETURNED STRING: " + completeInfo);
 
-                studentListElementsArrayList.add(firstNameReturn + " " + lastNameReturn);
+                studentListElementsArrayList.add(firstNameReturn + " " + lastNameReturn + " | ID #: " + studentIDReturn);
                 classAdapter.notifyDataSetChanged();
+
+                studentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                addClass.this);
+
+                        alertDialogBuilder
+                                .setMessage("Delete student?")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        //Object index = studentListElementsArrayList.getAdapter().getItem(position);
+                                        studentListElementsArrayList.remove(position-1);
+                                        classAdapter.notifyDataSetChanged();
+                                        //finish();
+                                    }
+                                })
+                                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
+                });
             }
         }
     }
