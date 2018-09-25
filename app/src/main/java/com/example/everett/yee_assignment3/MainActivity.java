@@ -8,7 +8,10 @@ package com.example.everett.yee_assignment3;
 //Android documentation
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,10 +33,37 @@ public class MainActivity extends AppCompatActivity {
     Button addClass;
     String[] ListElements = new String[] {};
     final ArrayList<String> ListElementsArrayList = new ArrayList<String>(Arrays.asList(ListElements));
+    public static final String PREFS_NAME = "PreferencesFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        boolean dialogShown = settings.getBoolean("dialogShown", false);
+
+        if (!dialogShown) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+
+            alertDialogBuilder
+                    .setMessage("Welcome to the class manager app! \n\nKnown issues: \n" +
+                            "- List of students is not persistent \n- Student picture is rotated incorrectly \n\n" +
+                            "Notes: \n- Click on a class to edit it \n\n**This dialog will only appear on first startup**")
+                    .setCancelable(false)
+                    .setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            //dialog.dismiss();
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("dialogShown", true);
+            editor.commit();
+        }
+
         setContentView(R.layout.activity_main);
 
         classList = (ListView) findViewById(R.id.classList1);

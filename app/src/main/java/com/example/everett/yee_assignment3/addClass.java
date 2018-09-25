@@ -78,18 +78,30 @@ public class addClass extends AppCompatActivity {
                     Intent backHome = new Intent();
                     String classNameReturn = className.getText().toString();
                     String classNumberReturn = classNumber.getText().toString();
-                    int count = studentList.getAdapter().getCount();
-                    String studentCount = Integer.toString(count);
 
-                    backHome.putExtra("classNameReturn", classNameReturn);
-                    backHome.putExtra("classNumberReturn", classNumberReturn);
-                    backHome.putExtra("studentCount", studentCount);
-                    //backHome.putStringArrayListExtra("studentList", studentListElementsArrayList);
-                    //Log.d("MainActivity", "RETURNED VALUE: " + backHome.putStringArrayListExtra("studentList", studentListElementsArrayList));
-                    //Log.d("addClass", "STUDENT DATA TEST: " + studentList.getAdapter().getItem(1));
+                    if (studentList.getAdapter() == null) {
+                        int count = 1;
+                        String studentCount = Integer.toString(count);
 
-                    setResult(Activity.RESULT_OK, backHome);
-                    finish();
+                        backHome.putExtra("classNameReturn", classNameReturn);
+                        backHome.putExtra("classNumberReturn", classNumberReturn);
+                        backHome.putExtra("studentCount", studentCount);
+
+                        setResult(Activity.RESULT_OK, backHome);
+                        finish();
+                    }
+
+                    else if (studentList.getAdapter().getCount() > 0) {
+                        int count = studentList.getAdapter().getCount();
+                        String studentCount = Integer.toString(count);
+
+                        backHome.putExtra("classNameReturn", classNameReturn);
+                        backHome.putExtra("classNumberReturn", classNumberReturn);
+                        backHome.putExtra("studentCount", studentCount);
+
+                        setResult(Activity.RESULT_OK, backHome);
+                        finish();
+                    }
                 }
             }
         });
